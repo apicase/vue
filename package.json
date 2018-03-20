@@ -1,0 +1,23 @@
+{
+  "name": "@apicase/vue",
+  "version": "0.1.0",
+  "description": "Apicase + Vue = <3",
+  "main": "index.js",
+  "repository": "https://github.com/apicase/vue",
+  "author": "Kelin2025 <kelin2025@yandex.ru>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint --fix index.js",
+    "build": "rollup index.js --o index.cjs.js -f cjs",
+    "prepublish": "npm run lint && npm run build"
+  },
+  "devDependencies": {
+    "eslint": "^4.11.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "rollup": "^0.56.5"
+  }
+}
