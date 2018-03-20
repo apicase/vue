@@ -27,3 +27,10 @@ export const injectService = (service, config = defaultConfig) => ({
 
 export const injectFromTree = tree => (service, config) =>
   injectService(tree(service), conifg)
+
+export const pickApis = tree => services => {
+  const inject = injectFromTree(tree)
+  return Object.entries(services).map(([name, config]) =>
+    inject(name, { ...config, name })
+  )
+}
