@@ -20,13 +20,13 @@ export const injectService = (service, config = defaultConfig) => ({
     this[service.name] = service
       .extend({ meta: { comp: this } })
       .on('change:state', ({ nextState }) => {
-        this[config.name] = state
+        this[config.name] = nextState
       })
   }
 })
 
 export const injectFromTree = tree => (service, config) =>
-  injectService(tree(service), conifg)
+  injectService(tree(service), config)
 
 export const pickApis = tree => services => {
   const inject = injectFromTree(tree)
