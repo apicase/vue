@@ -59,8 +59,8 @@ const getApi = (service, ctx) =>
 
 const defaultPayload = ctx => ({})
 const defaultResult = state => ({
-  success: state.result.success,
-  data: state.result.success ? state.result.body : state.result
+  success: state.success,
+  data: state.success ? state.result.body : state.result
 })
 
 /**
