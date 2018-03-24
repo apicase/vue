@@ -58,13 +58,16 @@ const getApi = (service, ctx) =>
     : ctx.app.$service(service)
 
 const defaultPayload = ctx => ({})
-const defaultResult = res => ({ data: res.body })
+const defaultResult = state => ({
+  success: state.result.success,
+  data: state.result.success ? state.result.body : state.result
+})
 
 /**
  * Creates asyncData callback to get data from Apicase services
  * @param {string|ApiService} service Service name from tree or custom service instance
  * @param {Function} [payload=ctx => ({})] Callback that accepts context and returns payload
- * @param {Function} [result=res => ({ data: res.body })] Callback that transforms request result to data
+ * @param {Function} [result=res => ({ success: res.result.success, data: res.result.success ? res.result.body : res.result })] Callback that transforms request state after finish to data
  * @return {Function} asyncData callback
  */
 export const asyncData = config => ctx =>
