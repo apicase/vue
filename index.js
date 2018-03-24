@@ -54,7 +54,7 @@ export const pickApis = tree => services => {
 
 const getApi = (service, ctx) =>
   typeof service === 'string'
-    ? ctx.app.$api[service]
+    ? ctx.app.$api(service)
     : ctx.app.$service(service)
 
 const defaultPayload = ctx => ({})
@@ -67,8 +67,7 @@ const defaultResult = res => ({ data: res.body })
  * @param {Function} [result=res => ({ data: res.body })] Callback that transforms request result to data
  * @return {Function} asyncData callback
  */
-export const asyncData = config => ctx => {
-  return getApi(config.service, ctx)
+export const asyncData = config => ctx =>
+  getApi(config.service, ctx)
     .doRequest((config.payload || defaultPayload)(ctx))
     .then(config.result || defaultResult)
-}
