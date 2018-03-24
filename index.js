@@ -1,6 +1,6 @@
 const defaultConfig = {
-  name: "api"
-};
+  name: 'api'
+}
 
 /**
  * Injects request instance of service to component data. Also adds a listeners to update data
@@ -11,7 +11,7 @@ const defaultConfig = {
  */
 export const injectService = (service, config = defaultConfig) => ({
   data: function() {
-    const res = {};
+    const res = {}
     res[config.name] = {
       started: false,
       pending: false,
@@ -19,46 +19,46 @@ export const injectService = (service, config = defaultConfig) => ({
       error: null,
       payload: null,
       result: null
-    };
-    return res;
+    }
+    return res
   },
   beforeCreate: function() {
     this[service.name] = service
       .extend({ meta: { comp: this } })
-      .on("change:state", ctx => {
-        this[config.name] = ctx.nextState;
-      });
+      .on('change:state', ctx => {
+        this[config.name] = ctx.nextState
+      })
   }
-});
+})
 
 /**
  * Gets service by its name from services tree and returns Vue mixin
  * @param {tree} tree Services tree to get service from
  */
 export const injectFromTree = tree => (service, config) =>
-  injectService(tree(service), config);
+  injectService(tree(service), config)
 
 /**
  * Picks services from services tree and returns array of Vue mixins
  * @param {tree} tree Services tree to get service from
  */
 export const pickApis = tree => services => {
-  const inject = injectFromTree(tree);
+  const inject = injectFromTree(tree)
   return Object.entries(services).map(service =>
     inject(
       service[0],
       Object.assign({}, { config: service[1], name: service[0] })
     )
-  );
-};
+  )
+}
 
 const getApi = (service, ctx) =>
-  typeof service === "string"
+  typeof service === 'string'
     ? ctx.app.$api[service]
-    : ctx.app.$service(service);
+    : ctx.app.$service(service)
 
-const defaultPayload = ctx => ({});
-const defaultResult = res => ({ data: res.body });
+const defaultPayload = ctx => ({})
+const defaultResult = res => ({ data: res.body })
 
 /**
  * Creates asyncData callback to get data from Apicase services
@@ -70,5 +70,5 @@ const defaultResult = res => ({ data: res.body });
 export const asyncData = config => ctx => {
   return getApi(config.service, ctx)
     .doRequest((config.payload || defaultPayload)(ctx))
-    .then(config.result || defaultResult);
-};
+    .then(config.result || defaultResult)
+}
