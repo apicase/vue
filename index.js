@@ -1,5 +1,5 @@
 const defaultConfig = {
-  name: 'api'
+  name: "api"
 }
 
 /**
@@ -25,7 +25,7 @@ export const injectService = (service, config = defaultConfig) => ({
   beforeCreate: function() {
     this[service.name] = service
       .extend({ meta: { comp: this } })
-      .on('change:state', ctx => {
+      .on("change:state", ctx => {
         this[config.name] = ctx.nextState
       })
   }
@@ -53,7 +53,7 @@ export const pickApis = tree => services => {
 }
 
 const getApi = (service, ctx) =>
-  typeof service === 'string'
+  typeof service === "string"
     ? ctx.app.$api(service)
     : ctx.app.$service(service)
 
@@ -74,3 +74,29 @@ export const asyncData = config => ctx =>
   getApi(config.service, ctx)
     .doRequest((config.payload || defaultPayload)(ctx))
     .then(config.result || defaultResult)
+
+const defaultConverter = result => (result && result.body) || result
+
+/**
+ * Creates function that commits mutation to Vuex store (store should be passed in meta)
+ * @param {string} mutation Mutation name
+ * @param {converter} converter Function that converts result before mutation
+ * @return {Function} Function that commits mutation
+ */
+export const commitToStore = (mutation, converter) => (result, state) =>
+  state.meta.store.commit(
+    mutation,
+    (converter || defaultConverter)(result, state)
+  )
+
+/**
+ * Creates function that dispatches action to Vuex store (store should be passed in meta)
+ * @param {string} action Action name
+ * @param {converter} converter Function that converts result before dispatch
+ * @return {Function} Function that dispatches action
+ */
+export const dispatchToStore = (action, converter) => (result, state) =>
+  state.meta.store.dispatch(
+    action,
+    (converter || defaultConverter)(result, state)
+  )
