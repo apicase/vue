@@ -1,5 +1,5 @@
 const defaultConfig = {
-  name: "api"
+  name: 'api'
 }
 
 /**
@@ -25,7 +25,7 @@ export const injectService = (service, config = defaultConfig) => ({
   beforeCreate: function() {
     this[service.name] = service
       .extend({ meta: { comp: this } })
-      .on("change:state", ctx => {
+      .on('change:state', ctx => {
         this[config.name] = ctx.nextState
       })
   }
@@ -53,7 +53,7 @@ export const pickApis = tree => services => {
 }
 
 const getApi = (service, ctx) =>
-  typeof service === "string"
+  typeof service === 'string'
     ? ctx.app.$api(service)
     : ctx.app.$service(service)
 
