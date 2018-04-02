@@ -123,17 +123,17 @@ export const tree = new ApiTree(WithStore, [
   {
     url: "posts",
     on: {
-      done: commitToStore("posts/setList", res => res.body),
-      fail: dispatchToStore("alerts/push", res => res)
+      done: commitToStore("posts/setList", ({ result }) => result.body),
+      fail: dispatchToStore("alerts/push", ({ result }) => result)
     }
   }
 ])
 ```
 
-2nd callback accepts `state.result` and `state` and converts it for action/mutation. It's optional, default value:
+2nd callback accepts `state` and converts it for action/mutation. It's optional, default value:
 
 ```javascript
-const defaultConverter = result => (result && result.body) || result
+const defaultConverter = ({ result }) => (result && result.body) || result
 ```
 
 ## License
