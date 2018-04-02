@@ -83,7 +83,7 @@ const defaultConverter = ctx => (ctx.result && ctx.result.body) || ctx.result
  * @param {converter} converter Function that converts result before mutation
  * @return {Function} Function that commits mutation
  */
-export const commitToStore = (mutation, converter) => state =>
+export const commitToStore = (mutation, converter) => (_, state) =>
   state.meta.store.commit(mutation, (converter || defaultConverter)(state))
 
 /**
@@ -92,5 +92,5 @@ export const commitToStore = (mutation, converter) => state =>
  * @param {converter} converter Function that converts result before dispatch
  * @return {Function} Function that dispatches action
  */
-export const dispatchToStore = (action, converter) => state =>
+export const dispatchToStore = (action, converter) => (_, state) =>
   state.meta.store.dispatch(action, (converter || defaultConverter)(state))
