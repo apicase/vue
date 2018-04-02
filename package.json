@@ -1,6 +1,6 @@
 {
   "name": "@apicase/vue",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Apicase + Vue = <3",
   "main": "index.cjs.js",
   "module": "index.js",
